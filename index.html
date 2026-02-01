@@ -2,155 +2,129 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sophia Milian</title>
-  <meta name="description" content="Personal website for Sophia Milian." />
+
+  <!-- Aesthetic Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
   <style>
     :root{
-      --text:#111111;
-      --muted:#5b5b5b;
-      --bg:#fbfaf8;
+      --bg:#f7f3ee;
       --card:#ffffff;
-      --border: rgba(17,17,17,.10);
-      --shadow: 0 14px 40px rgba(0,0,0,.10);
-      --r:18px;
-      --max: 920px;
+      --text:#1a1a1a;
+      --muted:#6b6b6b;
+      --border: rgba(0,0,0,.08);
+      --shadow: 0 18px 40px rgba(0,0,0,.12);
+      --radius: 18px;
+      --max: 900px;
     }
 
     *{ box-sizing:border-box; }
+
     body{
       margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      font-family: "Inter", system-ui, sans-serif;
       color: var(--text);
       background: var(--bg);
-      line-height: 1.6;
+      line-height:1.6;
     }
 
-    /* HERO IMAGE */
+    /* ===== HERO SECTION ===== */
     .hero{
-      min-height: 78vh;
+      height: 85vh;
       display:flex;
       align-items:flex-end;
-      justify-content:center;
-      padding: 46px 18px;
-      /* Neutral, aesthetic "photo-like" background using gradients */
-      background:
-        radial-gradient(900px 600px at 20% 25%, rgba(210, 196, 175, .55), transparent 60%),
-        radial-gradient(900px 600px at 80% 20%, rgba(191, 180, 165, .45), transparent 60%),
-        radial-gradient(900px 600px at 50% 90%, rgba(227, 220, 210, .65), transparent 60%),
-        linear-gradient(135deg, #e8e1d7, #f7f3ee);
+      padding: 48px 20px;
+      background-image: url("012d4619-5ffb-4094-9837-93b52bf0782a.png");
+      background-size: cover;
+      background-position: center;
       position: relative;
-      overflow:hidden;
     }
+
     .hero::after{
       content:"";
-      position:absolute; inset:0;
-      background: linear-gradient(to top, rgba(0,0,0,.28), transparent 55%);
-      pointer-events:none;
+      position:absolute;
+      inset:0;
+      background: linear-gradient(to top, rgba(0,0,0,.35), transparent 60%);
     }
 
-    .heroContent{
-      width:min(var(--max), 92vw);
+    .hero-content{
       position: relative;
-      z-index:1;
-      color: #0f0f0f;
-    }
-
-    .badge{
-      display:inline-block;
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.72);
-      border: 1px solid rgba(255,255,255,.75);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 12px 30px rgba(0,0,0,.10);
-      font-weight: 700;
-      font-size: 13px;
-      color: rgba(17,17,17,.85);
-    }
-
-    h1{
-      margin: 14px 0 10px;
-      font-size: clamp(34px, 5vw, 54px);
-      line-height: 1.05;
-      letter-spacing: -1px;
-      color: #0d0d0d;
-      text-shadow: 0 10px 30px rgba(0,0,0,.10);
-    }
-
-    .heroSubtitle{
-      margin: 0;
-      max-width: 60ch;
-      color: rgba(17,17,17,.78);
-      font-weight: 600;
-      font-size: 16px;
-    }
-
-    /* ABOUT SECTION */
-    .wrap{
-      width:min(var(--max), 92vw);
+      max-width: var(--max);
       margin: 0 auto;
-      padding: 28px 0 48px;
+      width: 100%;
+      color: #111;
+    }
+
+    .hero h1{
+      font-family: "Playfair Display", serif;
+      font-size: clamp(36px, 5vw, 56px);
+      margin: 0;
+      letter-spacing: -0.5px;
+    }
+
+    .hero p{
+      margin-top: 8px;
+      font-size: 16px;
+      color: rgba(0,0,0,.75);
+    }
+
+    /* ===== ABOUT SECTION ===== */
+    .wrap{
+      max-width: var(--max);
+      margin: -60px auto 60px;
+      padding: 0 20px;
     }
 
     .card{
-      margin-top: -46px; /* slight overlap for a modern look */
       background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
+      border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 22px;
+      padding: 28px;
+      border: 1px solid var(--border);
     }
 
     h2{
-      margin: 0 0 10px;
-      font-size: 20px;
-      letter-spacing: -.3px;
+      font-family: "Playfair Display", serif;
+      font-size: 22px;
+      margin: 0 0 12px;
     }
 
-    p{
-      margin: 0;
+    .card p{
+      margin:0;
       color: var(--muted);
-      font-weight: 550;
       font-size: 16px;
     }
 
-    .line{
-      height: 1px;
-      background: rgba(17,17,17,.08);
-      margin: 14px 0;
-    }
-
     footer{
-      padding-top: 18px;
-      color: rgba(17,17,17,.55);
+      margin-top: 20px;
       font-size: 13px;
-      font-weight: 600;
+      color: rgba(0,0,0,.45);
     }
   </style>
 </head>
 
 <body>
-  <!-- HERO / OPENING -->
+  <!-- COVER PAGE -->
   <section class="hero">
-    <div class="heroContent">
-      <span class="badge">Personal Website</span>
+    <div class="hero-content">
       <h1>Sophia Milian</h1>
-      <p class="heroSubtitle">A simple, clean homepage with a neutral aesthetic and a short introduction.</p>
+      <p>Personal Website</p>
     </div>
   </section>
 
   <!-- ABOUT ME -->
   <main class="wrap">
-    <div class="card" id="about">
+    <div class="card">
       <h2>About Me</h2>
       <p>
-        My name is <strong style="color:var(--text);">Sophia Milian</strong> and I am currently a senior in
-        <strong style="color:var(--text);">Babson College</strong>. I am from <strong style="color:var(--text);">Miami, FL</strong>
-        and I’m <strong style="color:var(--text);">22 years old</strong>.
+        My name is <strong>Sophia Milian</strong>. I am currently a senior at
+        <strong>Babson College</strong>. I am from <strong>Miami, FL</strong>,
+        and I am <strong>22 years old</strong>.
       </p>
-
-      <div class="line"></div>
 
       <footer>
         © <span id="year"></span> Sophia Milian
@@ -159,7 +133,7 @@
   </main>
 
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
