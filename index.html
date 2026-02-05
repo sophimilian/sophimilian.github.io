@@ -3,129 +3,515 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sophia Milian</title>
+  <title>Sophia Milian | OIM3690</title>
 
   <!-- Aesthetic fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
     :root{
+      /* Light (neutral + minimal) */
       --bg:#f6f3ee;
-      --card:#ffffff;
+      --bg2:#efe9e1;
+      --card: rgba(255,255,255,.78);
+      --cardSolid:#ffffff;
       --text:#141414;
       --muted:#6a6a6a;
       --border: rgba(0,0,0,.08);
-      --shadow: 0 18px 40px rgba(0,0,0,.12);
+      --shadow: 0 18px 40px rgba(0,0,0,.10);
       --radius:18px;
-      --max:900px;
+      --max:950px;
+
+      --accent:#a08a77;      /* warm neutral accent */
+      --accent2:#d7cbbf;     /* soft highlight */
+      --ring: rgba(160,138,119,.25);
+    }
+
+    /* Dark mode (still neutral + soft) */
+    [data-theme="dark"]{
+      --bg:#0f1112;
+      --bg2:#151819;
+      --card: rgba(255,255,255,.06);
+      --cardSolid: rgba(255,255,255,.06);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.70);
+      --border: rgba(255,255,255,.12);
+      --shadow: 0 18px 45px rgba(0,0,0,.45);
+
+      --accent:#d9c7b6;
+      --accent2:#2a2f31;
+      --ring: rgba(217,199,182,.22);
     }
 
     *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
 
     body{
       margin:0;
       font-family: "Inter", system-ui, sans-serif;
       color: var(--text);
-      background: var(--bg);
+      background: linear-gradient(180deg, var(--bg), var(--bg2));
       line-height:1.6;
     }
 
-    /* ===== WATERCOLORED HERO ===== */
+    a{ color:inherit; text-decoration:none; }
+    :focus-visible{
+      outline: none;
+      box-shadow: 0 0 0 4px var(--ring);
+      border-radius: 12px;
+    }
+
+    /* ===== Minimal Header ===== */
+    header{
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(12px);
+      background: color-mix(in srgb, var(--bg) 70%, transparent);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 14px 20px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:baseline;
+      gap: 10px;
+      font-weight: 600;
+      letter-spacing:-.2px;
+    }
+    .brand strong{
+      font-family: "Playfair Display", serif;
+      font-weight: 600;
+      font-size: 18px;
+    }
+    .brand span{
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .navRight{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+    }
+
+    .navLinks{
+      display:flex;
+      gap: 12px;
+      flex-wrap:wrap;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .navLinks a{
+      padding: 8px 10px;
+      border-radius: 12px;
+    }
+    .navLinks a:hover{
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .btn{
+      cursor:pointer;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-weight: 600;
+      font-size: 13px;
+      transition: transform .15s ease, background .15s ease;
+    }
+    .btn:hover{ transform: translateY(-1px); background: color-mix(in srgb, var(--cardSolid) 70%, transparent); }
+
+    /* ===== Watercolored Hero + subtle graphics ===== */
     .hero{
-      height: 85vh;
+      min-height: 70vh;
       display:flex;
       align-items:flex-end;
-      padding: 48px 20px;
+      padding: 56px 20px;
+      position: relative;
+      overflow:hidden;
       background:
-        radial-gradient(700px 500px at 15% 20%, #e7ddd2, transparent 65%),
-        radial-gradient(700px 500px at 85% 25%, #efe6dc, transparent 65%),
-        radial-gradient(700px 500px at 50% 85%, #ddd3c7, transparent 65%),
+        radial-gradient(720px 520px at 12% 22%, #e7ddd2, transparent 65%),
+        radial-gradient(760px 520px at 88% 22%, #efe6dc, transparent 65%),
+        radial-gradient(760px 520px at 50% 88%, #ddd3c7, transparent 65%),
         linear-gradient(135deg, #f4efe9, #ebe4db);
     }
 
-    .hero-content{
+    /* Minimal “aesthetic graphic” shapes */
+    .blob{
+      position:absolute;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      filter: blur(2px);
+      opacity: .35;
+      background: radial-gradient(circle at 30% 30%, var(--accent), transparent 60%);
+      mix-blend-mode: multiply;
+      pointer-events:none;
+    }
+    .blob.one{ top:-220px; left:-180px; }
+    .blob.two{ bottom:-260px; right:-240px; opacity:.28; background: radial-gradient(circle at 30% 30%, var(--accent2), transparent 60%); }
+
+    [data-theme="dark"] .hero{
+      background:
+        radial-gradient(780px 540px at 12% 22%, rgba(217,199,182,.12), transparent 65%),
+        radial-gradient(800px 560px at 88% 22%, rgba(217,199,182,.10), transparent 65%),
+        radial-gradient(800px 560px at 50% 88%, rgba(255,255,255,.08), transparent 65%),
+        linear-gradient(135deg, #0f1112, #151819);
+    }
+
+    .heroContent{
       max-width: var(--max);
       margin: 0 auto;
-      width:100%;
+      width: 100%;
+      position: relative;
+      z-index: 1;
     }
 
-    .hero h1{
+    h1{
       font-family: "Playfair Display", serif;
-      font-size: clamp(36px, 5vw, 56px);
-      margin: 0;
-      letter-spacing: -0.5px;
+      font-size: clamp(40px, 5vw, 64px);
+      margin: 0 0 8px;
+      letter-spacing: -0.8px;
     }
 
-    .hero p{
-      margin-top: 8px;
-      font-size: 16px;
-      color: rgba(0,0,0,.75);
+    .subtitle{
+      margin:0;
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 500;
+      max-width: 60ch;
     }
 
-    /* ===== ABOUT SECTION ===== */
+    .metaRow{
+      margin-top: 16px;
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .pill strong{ color: var(--text); font-weight: 600; }
+
+    /* ===== Main layout ===== */
     .wrap{
       max-width: var(--max);
-      margin: -60px auto 60px;
+      margin: -48px auto 60px;
       padding: 0 20px;
     }
 
     .card{
       background: var(--card);
+      border: 1px solid var(--border);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 28px;
-      border: 1px solid var(--border);
+      padding: 26px;
+    }
+
+    .section{
+      margin-top: 14px;
+      display:grid;
+      gap: 14px;
+    }
+
+    .grid2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
     }
 
     h2{
       font-family: "Playfair Display", serif;
-      font-size: 22px;
-      margin: 0 0 12px;
+      font-size: 20px;
+      margin: 0 0 10px;
+      letter-spacing: -.2px;
+    }
+    p{ margin:0; color: var(--muted); font-size: 15px; font-weight: 500; }
+
+    /* ===== Notes UI ===== */
+    .label{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 600;
+      margin-bottom: 6px;
+      display:block;
+    }
+    .field{
+      width:100%;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--cardSolid) 72%, transparent);
+      color: var(--text);
+      font-weight: 500;
+      font-family: inherit;
+      outline:none;
+    }
+    textarea.field{
+      min-height: 140px;
+      resize: vertical;
+      line-height: 1.45;
     }
 
-    .card p{
+    .noteActions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top: 10px;
+    }
+
+    .small{
+      padding: 9px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+    }
+
+    .noteItem{
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      background: color-mix(in srgb, var(--cardSolid) 70%, transparent);
+      margin-top: 10px;
+    }
+    .noteItem .top{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 10px;
+    }
+    .noteItem .title{
+      font-weight: 600;
+      color: var(--text);
       margin:0;
+      font-size: 14px;
+    }
+    .noteItem .date{
+      font-size: 12px;
       color: var(--muted);
-      font-size: 16px;
+      font-weight: 600;
+      white-space:nowrap;
+    }
+    .noteItem .body{
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--muted);
+      white-space: pre-wrap;
     }
 
     footer{
-      margin-top: 20px;
+      margin-top: 14px;
       font-size: 13px;
-      color: rgba(0,0,0,.45);
+      color: color-mix(in srgb, var(--muted) 80%, transparent);
+      font-weight: 500;
+    }
+
+    @media (max-width: 900px){
+      .grid2{ grid-template-columns: 1fr; }
+      .navLinks{ display:none; }
     }
   </style>
 </head>
 
 <body>
-  <!-- OPENING SECTION -->
-  <section class="hero">
-    <div class="hero-content">
+  <!-- HEADER -->
+  <header>
+    <div class="nav">
+      <div class="brand">
+        <strong>Sophia Milian</strong>
+        <span>OIM3690 Hub</span>
+      </div>
+
+      <div class="navRight">
+        <nav class="navLinks" aria-label="Sections">
+          <a href="#about">About</a>
+          <a href="#class">Class Info</a>
+          <a href="#notes">Notes</a>
+        </nav>
+
+        <button class="btn" id="themeBtn" type="button" aria-label="Toggle light/dark mode">Theme</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="blob one" aria-hidden="true"></div>
+    <div class="blob two" aria-hidden="true"></div>
+
+    <div class="heroContent">
       <h1>Sophia Milian</h1>
-      <p>Personal Website</p>
+      <p class="subtitle">Minimalistic personal + class website for OIM3690.</p>
+
+      <div class="metaRow" aria-label="Quick info">
+        <div class="pill">Today: <strong id="today"></strong></div>
+        <div class="pill">Class: <strong>OIM3690</strong></div>
+        <div class="pill">Time: <strong>11:30–1pm Tue/Thu</strong></div>
+      </div>
     </div>
   </section>
 
-  <!-- ABOUT ME -->
+  <!-- MAIN -->
   <main class="wrap">
-    <div class="card">
-      <h2>About Me</h2>
-      <p>
-        My name is <strong>Sophia Milian</strong> and I am currently a senior at
-        <strong>Babson College</strong>. I am from <strong>Miami, FL</strong> and
-        I am <strong>22 years old</strong>.
-      </p>
+    <div class="section">
+      <!-- ABOUT -->
+      <section class="card" id="about">
+        <h2>About Me</h2>
+        <p>
+          My name is <strong style="color:var(--text);">Sophia Milian</strong>. I’m currently a senior at
+          <strong style="color:var(--text);">Babson College</strong>. I’m from <strong style="color:var(--text);">Miami, FL</strong>
+          and I’m <strong style="color:var(--text);">22 years old</strong>.
+        </p>
+        <footer>© <span id="year"></span> Sophia Milian</footer>
+      </section>
 
-      <footer>
-        © <span id="year"></span> Sophia Milian
-      </footer>
+      <!-- CLASS INFO -->
+      <section class="card" id="class">
+        <h2>Class Info</h2>
+        <p>
+          <strong style="color:var(--text);">OIM3690</strong> — <span style="color:var(--muted);">11:30–1pm Tuesday/Thursdays</span>
+        </p>
+        <p style="margin-top:10px;">
+          Use this page to keep your notes organized and track what you learn each week.
+        </p>
+      </section>
+
+      <!-- NOTES -->
+      <section class="card" id="notes">
+        <h2>Class Notes</h2>
+        <p style="margin-bottom:14px;">
+          Add a note by title and save it. Notes stay on this browser (minimal + simple).
+        </p>
+
+        <label class="label" for="noteTitle">Title</label>
+        <input class="field" id="noteTitle" type="text" placeholder="Week 1 — Intro to HTML" />
+
+        <label class="label" for="noteText" style="margin-top:12px;">Notes</label>
+        <textarea class="field" id="noteText" placeholder="- Key idea:
+- Example:
+- Homework:"></textarea>
+
+        <div class="noteActions">
+          <button class="btn small" id="saveBtn" type="button">Save Note</button>
+          <button class="btn small" id="clearBtn" type="button">Clear</button>
+        </div>
+
+        <div id="notesList" aria-label="Saved notes"></div>
+      </section>
     </div>
   </main>
 
   <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
+    // ===== Date + year =====
+    const now = new Date();
+    document.getElementById("year").textContent = now.getFullYear();
+    document.getElementById("today").textContent = new Intl.DateTimeFormat(undefined, {
+      weekday: "long", month: "long", day: "numeric", year: "numeric"
+    }).format(now);
+
+    // ===== Theme toggle =====
+    const themeBtn = document.getElementById("themeBtn");
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark" || savedTheme === "light") {
+      document.documentElement.setAttribute("data-theme", savedTheme);
+    }
+
+    themeBtn.addEventListener("click", () => {
+      const current = document.documentElement.getAttribute("data-theme") || "light";
+      const next = current === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      localStorage.setItem("theme", next);
+    });
+
+    // ===== Notes (simple local storage) =====
+    const STORAGE_KEY = "sophia_oim3690_notes";
+    const noteTitle = document.getElementById("noteTitle");
+    const noteText = document.getElementById("noteText");
+    const notesList = document.getElementById("notesList");
+
+    function loadNotes() {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+      catch { return []; }
+    }
+
+    function saveNotes(notes) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
+    }
+
+    function renderNotes() {
+      const notes = loadNotes().sort((a,b) => b.createdAt - a.createdAt);
+      if (!notes.length) {
+        notesList.innerHTML = `<p style="margin-top:12px; color:var(--muted); font-size:13px;">No notes saved yet.</p>`;
+        return;
+      }
+
+      notesList.innerHTML = notes.map(n => `
+        <div class="noteItem">
+          <div class="top">
+            <p class="title">${escapeHTML(n.title)}</p>
+            <span class="date">${new Date(n.createdAt).toLocaleDateString()}</span>
+          </div>
+          <div class="body">${escapeHTML(n.text)}</div>
+        </div>
+      `).join("");
+    }
+
+    function escapeHTML(str) {
+      return String(str)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    document.getElementById("saveBtn").addEventListener("click", () => {
+      const title = noteTitle.value.trim() || "Untitled Note";
+      const text = noteText.value.trim();
+      if (!text) { alert("Write some notes first."); return; }
+
+      const notes = loadNotes();
+      notes.push({ title, text, createdAt: Date.now() });
+      saveNotes(notes);
+
+      noteTitle.value = "";
+      noteText.value = "";
+      renderNotes();
+    });
+
+    document.getElementById("clearBtn").addEventListener("click", () => {
+      noteTitle.value = "";
+      noteText.value = "";
+      noteTitle.focus();
+    });
+
+    renderNotes();
   </script>
 </body>
 </html>
