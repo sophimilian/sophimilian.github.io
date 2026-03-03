@@ -325,6 +325,63 @@
       white-space: pre-wrap;
     }
 
+    /* ===== Interests Section ===== */
+    .interestsGrid{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .interestCard{
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--card);
+      box-shadow: var(--shadow);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .interestCard:hover{
+      transform: translateY(-4px);
+      box-shadow: 0 24px 48px rgba(0,0,0,.15);
+    }
+
+    [data-theme="dark"] .interestCard:hover{
+      box-shadow: 0 24px 48px rgba(0,0,0,.35);
+    }
+
+    .interestImage{
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .interestContent{
+      padding: 18px;
+    }
+
+    .interestIcon{
+      font-size: 32px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .interestTitle{
+      font-family: "Playfair Display", serif;
+      font-size: 18px;
+      margin: 0 0 8px;
+      color: var(--text);
+      letter-spacing: -.3px;
+    }
+
+    .interestCaption{
+      font-size: 13px;
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.5;
+    }
+
     footer{
       margin-top: 14px;
       font-size: 13px;
@@ -334,6 +391,7 @@
 
     @media (max-width: 900px){
       .grid2{ grid-template-columns: 1fr; }
+      .interestsGrid{ grid-template-columns: 1fr; }
       .navLinks{ display:none; }
     }
   </style>
@@ -351,6 +409,7 @@
       <div class="navRight">
         <nav class="navLinks" aria-label="Sections">
           <a href="#about">About</a>
+          <a href="#interests">Interests</a>
           <a href="#class">Class Info</a>
           <a href="#notes">Notes</a>
         </nav>
@@ -389,6 +448,36 @@
           and I’m <strong style="color:var(--text);">22 years old</strong>.
         </p>
         <footer>© <span id="year"></span> Sophia Milian</footer>
+      </section>
+
+      <!-- INTERESTS -->
+      <section class="card" id="interests">
+        <h2>My Interests</h2>
+        <p style="margin-bottom: 16px;">
+          I'm passionate about <strong style="color:var(--text);">traveling</strong>. From serene beach destinations to majestic mountain peaks, I love exploring new places and capturing their beauty.
+        </p>
+
+        <div class="interestsGrid">
+          <!-- Mountains -->
+          <div class="interestCard">
+            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop" alt="Snowmass Mountain in winter" class="interestImage">
+            <div class="interestContent">
+              <span class="interestIcon">🏔️</span>
+              <h3 class="interestTitle">Mountains</h3>
+              <p class="interestCaption">I love the crisp air and snowy peaks of places like Snowmass, Colorado. Mountain landscapes inspire me with their majesty.</p>
+            </div>
+          </div>
+
+          <!-- Beaches -->
+          <div class="interestCard">
+            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=400&fit=crop" alt="Bahama turquoise beaches" class="interestImage">
+            <div class="interestContent">
+              <span class="interestIcon">🏖️</span>
+              <h3 class="interestTitle">Beaches</h3>
+              <p class="interestCaption">The turquoise waters and white sand of the Bahamas are my happy place. There's nothing quite like a tropical escape.</p>
+            </div>
+          </div>
+        </div>
       </section>
 
       <!-- CLASS INFO -->
