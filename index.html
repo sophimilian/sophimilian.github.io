@@ -325,6 +325,55 @@
       white-space: pre-wrap;
     }
 
+    /* ===== Projects UI ===== */
+    .projectActions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top: 10px;
+    }
+
+    .projectItem{
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      background: color-mix(in srgb, var(--cardSolid) 70%, transparent);
+      margin-top: 10px;
+    }
+
+    .projectItem .top{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .projectItem .title{
+      font-weight: 600;
+      color: var(--text);
+      margin:0;
+      font-size: 14px;
+    }
+
+    .projectItem .date{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 600;
+      white-space:nowrap;
+    }
+
+    .projectItem .link{
+      margin-top: 8px;
+      display: inline-block;
+      color: var(--text);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      font-size: 13px;
+      font-weight: 500;
+      word-break: break-all;
+    }
+
     /* ===== Interests Section ===== */
     .interestsGrid{
       display: grid;
@@ -410,6 +459,7 @@
         <nav class="navLinks" aria-label="Sections">
           <a href="#about">About</a>
           <a href="#interests">Interests</a>
+          <a href="#projects">Projects</a>
           <a href="#class">Class Info</a>
           <a href="#notes">Notes</a>
         </nav>
@@ -478,6 +528,27 @@
             </div>
           </div>
         </div>
+      </section>
+
+      <!-- PROJECTS -->
+      <section class="card" id="projects">
+        <h2>My Projects</h2>
+        <p style="margin-bottom:14px;">
+          Add your project name and link below. Projects are saved in your browser for quick access.
+        </p>
+
+        <label class="label" for="projectName">Project Name</label>
+        <input class="field" id="projectName" type="text" placeholder="Mini Project 01" />
+
+        <label class="label" for="projectUrl" style="margin-top:12px;">Project URL</label>
+        <input class="field" id="projectUrl" type="url" placeholder="https://github.com/username/repo" />
+
+        <div class="projectActions">
+          <button class="btn small" id="addProjectBtn" type="button">Add Project</button>
+          <button class="btn small" id="clearProjectBtn" type="button">Clear</button>
+        </div>
+
+        <div id="projectsList" aria-label="Saved projects"></div>
       </section>
 
       <!-- CLASS INFO -->
@@ -580,6 +651,63 @@
         .replaceAll("'","&#039;");
     }
 
+    // ===== Projects (simple local storage) =====
+    const PROJECTS_KEY = "sophia_oim3690_projects";
+    const DEFAULT_PROJECT_URL = "https://github.com/sophimilian/mini-project-01.git";
+    const projectName = document.getElementById("projectName");
+    const projectUrl = document.getElementById("projectUrl");
+    const projectsList = document.getElementById("projectsList");
+
+    function loadProjects() {
+      try { return JSON.parse(localStorage.getItem(PROJECTS_KEY)) || []; }
+      catch { return []; }
+    }
+
+    function saveProjects(projects) {
+      localStorage.setItem(PROJECTS_KEY, JSON.stringify(projects));
+    }
+
+    function normalizeUrl(url) {
+      const value = url.trim();
+      if (!value) return "";
+      return /^https?:\/\//i.test(value) ? value : `https://${value}`;
+    }
+
+    function ensureDefaultProject() {
+      const existing = loadProjects();
+      const hasDefault = existing.some(project => normalizeUrl(project.url) === DEFAULT_PROJECT_URL);
+      if (hasDefault) return;
+
+      existing.push({
+        name: "Mini Project 01",
+        url: DEFAULT_PROJECT_URL,
+        createdAt: Date.now()
+      });
+
+      saveProjects(existing);
+    }
+
+    function renderProjects() {
+      const projects = loadProjects().sort((a,b) => b.createdAt - a.createdAt);
+      if (!projects.length) {
+        projectsList.innerHTML = `<p style="margin-top:12px; color:var(--muted); font-size:13px;">No projects added yet.</p>`;
+        return;
+      }
+
+      projectsList.innerHTML = projects.map(project => {
+        const safeUrl = normalizeUrl(project.url);
+        return `
+          <div class="projectItem">
+            <div class="top">
+              <p class="title">${escapeHTML(project.name || "Untitled Project")}</p>
+              <span class="date">${new Date(project.createdAt).toLocaleDateString()}</span>
+            </div>
+            <a class="link" href="${escapeHTML(safeUrl)}" target="_blank" rel="noopener noreferrer">${escapeHTML(safeUrl)}</a>
+          </div>
+        `;
+      }).join("");
+    }
+
     document.getElementById("saveBtn").addEventListener("click", () => {
       const title = noteTitle.value.trim() || "Untitled Note";
       const text = noteText.value.trim();
@@ -600,6 +728,35 @@
       noteTitle.focus();
     });
 
+    document.getElementById("addProjectBtn").addEventListener("click", () => {
+      const name = projectName.value.trim() || "Untitled Project";
+      const url = normalizeUrl(projectUrl.value);
+      if (!url) { alert("Add a project URL first."); return; }
+
+      try {
+        new URL(url);
+      } catch {
+        alert("Please enter a valid project URL.");
+        return;
+      }
+
+      const projects = loadProjects();
+      projects.push({ name, url, createdAt: Date.now() });
+      saveProjects(projects);
+
+      projectName.value = "";
+      projectUrl.value = "";
+      renderProjects();
+    });
+
+    document.getElementById("clearProjectBtn").addEventListener("click", () => {
+      projectName.value = "";
+      projectUrl.value = "";
+      projectName.focus();
+    });
+
+    ensureDefaultProject();
+    renderProjects();
     renderNotes();
   </script>
 </body>

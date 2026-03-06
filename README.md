@@ -1,2 +1,2 @@
-# sophimilian.github.io
-My Personal Website
+# My Personal Website
+- sophimilian.github.io
